@@ -109,7 +109,8 @@ async def on_guild_join(guild):
         if channel.permissions_for(guild.me).send_messages:
             await channel.send(
                 """
-https://bamjun.github.io/google_forms_discord_bot/
+add bot : https://discord.com/oauth2/authorize?client_id=1279655946359935027
+web page : https://bamjun.github.io/google_forms_discord_bot/
 
 # Google Forms Discord Bot User Manual
 
@@ -132,7 +133,7 @@ To configure the bot, use the following command in the Discord chat:
 `/setting [GoogleFormURL] [InputFieldID]`
 
 ### Example:
-`/setting https://docs.google.com/forms/d/e/your-form-id/viewform 1234567`
+`/setting https://docs.google.com/forms/d/e/your-form-id/formResponse 1234567`
 
 This will associate your Google Form and the specific input field with the bot.
 ## 4. Send Messages
