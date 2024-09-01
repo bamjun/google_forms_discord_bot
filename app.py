@@ -3,6 +3,25 @@ import os
 import discord
 import requests
 from discord.ext import commands
+import threading
+from http.server import BaseHTTPRequestHandler, HTTPServer
+
+# Dummy server to pass health check
+def run_dummy_server():
+    class HealthCheckHandler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(b'Health Check OK')
+
+    server = HTTPServer(('0.0.0.0', 8000), HealthCheckHandler)
+    server.serve_forever()
+
+# Start dummy server in a separate thread
+threading.Thread(target=run_dummy_server, daemon=True).start()
+
+
+
 
 # URL of the deployed Google Apps Script web app
 script_url = script_url = os.getenv("SCRIPT_URL")
