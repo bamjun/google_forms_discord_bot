@@ -38,42 +38,37 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 async def add(interaction: discord.Interaction, content: str):
     user_id = str(interaction.user.id)
 
+
+    # Send a quick response
+    await interaction.response.defer(thinking=True)
+
     # Send a GET request to the Google Apps Script API to get the content URL and entry number
     params = {
         "userId": user_id,
     }
     script_response = requests.get(script_url, params=params)
     response_json = script_response.json()
-
+    
     if "error" in response_json and response_json["error"] == "ID not found":
         await interaction.followup.send("No user found.", ephemeral=True)
         return
 
-    # If a defer response was sent before, use followup.send to continue the interaction
-    if interaction.response.is_done():
-        if not response_json.get("content"):
-            await interaction.followup.send("No user found.", ephemeral=True)
-            return
 
-        url = response_json["content"]
+    url = response_json["content"]
 
-        # Set the entry number corresponding to each field in the Google Forms
-        form_data = {
-            "entry." + str(response_json["entry"]): content,  # Content entered by the user
-        }
+    # Set the entry number corresponding to each field in the Google Forms
+    form_data = {
+        "entry." + str(response_json["entry"]): content,  # Content entered by the user
+    }
 
-        # Submit the form via a POST request
-        response = requests.post(url, data=form_data)
+    # Submit the form via a POST request
+    response = requests.post(url, data=form_data)
 
-        # Send a message based on the result of the request
-        if response.status_code == 200:
-            await interaction.followup.send(f"Content successfully submitted: {content}", ephemeral=True)
-        else:
-            await interaction.followup.send(f"Submission failed: {response.status_code}", ephemeral=True)
+    # Send a message based on the result of the request
+    if response.status_code == 200:
+        await interaction.followup.send(f"Content successfully submitted: {content}")
     else:
-        await interaction.response.send_message("ID not found", ephemeral=True)
-
-
+        await interaction.followup.send(f"Submission failed: {response.status_code}")
 
 
 
