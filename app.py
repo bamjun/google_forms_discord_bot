@@ -1,10 +1,11 @@
 import os
+import threading
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
 import discord
 import requests
 from discord.ext import commands
-import threading
-from http.server import BaseHTTPRequestHandler, HTTPServer
+
 
 # Dummy server to pass health check
 def run_dummy_server():
@@ -12,15 +13,14 @@ def run_dummy_server():
         def do_GET(self):
             self.send_response(200)
             self.end_headers()
-            self.wfile.write(b'Health Check OK')
+            self.wfile.write(b"Health Check OK")
 
-    server = HTTPServer(('0.0.0.0', 8000), HealthCheckHandler)
+    server = HTTPServer(("0.0.0.0", 8000), HealthCheckHandler)
     server.serve_forever()
+
 
 # Start dummy server in a separate thread
 threading.Thread(target=run_dummy_server, daemon=True).start()
-
-
 
 
 # URL of the deployed Google Apps Script web app
@@ -107,7 +107,46 @@ async def on_guild_join(guild):
     # Send "Hello World" message to the first text channel the bot has permission to send messages in
     for channel in guild.text_channels:
         if channel.permissions_for(guild.me).send_messages:
-            await channel.send("Hello World")
+            await channel.send(
+                """
+https://bamjun.github.io/google_forms_discord_bot/
+
+### Google Forms Discord Bot User Manual
+
+#### 1. Add Discord Bot
+To begin, you need to add the bot to your Discord server. Use the bot invitation link to invite it to the server of your choice.
+
+#### 2. Find Google Form URL and Input Field ID
+You will need to locate the URL of the Google Form and the ID of the input field where responses will be submitted. Follow these steps:
+
+1. Access the Google Form you want to use.
+2. Open the developer tools in your browser (usually by pressing the F12 key).
+3. Navigate to the "Network" tab within the developer tools.
+4. Submit a response to the form.
+5. Look for the item labeled 'formResponse' in the network activity.
+6. In the payload, find the number that follows 'entry.'. This number is the ID of the input field.
+
+#### 3. Set Up the Bot
+To configure the bot, use the following command in the Discord chat:
+
+`/setting [GoogleFormURL] [InputFieldID]`
+
+##### Example:
+`/setting https://docs.google.com/forms/d/e/your-form-id/viewform 1234567`
+
+This will associate your Google Form and the specific input field with the bot.
+
+#### 4. Send Messages
+Once the setup is complete, you can send messages to the Google Form using the bot with the following command:
+
+`/add [message]`
+
+##### Example:
+`/add Hello, this is a test message.`
+
+This will submit the message to the specified input field in your Google Form.
+"""
+            )
             break
 
 
