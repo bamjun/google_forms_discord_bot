@@ -96,7 +96,10 @@ async def on_message(message):
     # Respond with "hello" if the user says "hi"
     if message.content.lower() == "hi":
 
-        await message.channel.send("hello")
+        await message.channel.send("""
+add bot : https://discord.com/oauth2/authorize?client_id=1279655946359935027
+web page : https://bamjun.github.io/google_forms_discord_bot/
+            """)
 
     # Call the command handler to process other commands
     await bot.process_commands(message)
