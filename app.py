@@ -111,12 +111,12 @@ async def on_guild_join(guild):
                 """
 https://bamjun.github.io/google_forms_discord_bot/
 
-### Google Forms Discord Bot User Manual
+# Google Forms Discord Bot User Manual
 
-#### 1. Add Discord Bot
+## 1. Add Discord Bot
 To begin, you need to add the bot to your Discord server. Use the bot invitation link to invite it to the server of your choice.
 
-#### 2. Find Google Form URL and Input Field ID
+## 2. Find Google Form URL and Input Field ID
 You will need to locate the URL of the Google Form and the ID of the input field where responses will be submitted. Follow these steps:
 
 1. Access the Google Form you want to use.
@@ -126,25 +126,25 @@ You will need to locate the URL of the Google Form and the ID of the input field
 5. Look for the item labeled 'formResponse' in the network activity.
 6. In the payload, find the number that follows 'entry.'. This number is the ID of the input field.
 
-#### 3. Set Up the Bot
+## 3. Set Up the Bot
 To configure the bot, use the following command in the Discord chat:
 
 `/setting [GoogleFormURL] [InputFieldID]`
 
-##### Example:
+### Example:
 `/setting https://docs.google.com/forms/d/e/your-form-id/viewform 1234567`
 
 This will associate your Google Form and the specific input field with the bot.
-
-#### 4. Send Messages
+## 4. Send Messages
 Once the setup is complete, you can send messages to the Google Form using the bot with the following command:
 
 `/add [message]`
 
-##### Example:
+### Example:
 `/add Hello, this is a test message.`
 
 This will submit the message to the specified input field in your Google Form.
+
 """
             )
             break
