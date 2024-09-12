@@ -1,0 +1,31 @@
+name: Update Koyeb Environment Variables
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-koyeb-env:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Update Koyeb environment variables
+      env:
+        KOYEB_API_KEY: ${{ secrets.KOYEB_API_KEY }}
+        ENV_VAR_NAME: "SCRIPT_URL"
+        ENV_VAR_VALUE: ${{ secrets.SCRIPT_URL }}
+        ENV_VAR_NAME: "DISCORD_BOT_TOKEN"
+        ENV_VAR_VALUE: ${{ secrets.DISCORD_BOT_TOKEN }}
+      run: |
+        curl -X PATCH "https://app.koyeb.com/v1/apps/your-app-id/services/your-service-id" \
+        -H "Authorization: Bearer $KOYEB_API_KEY" \
+        -H "Content-Type: application/json" \
+        -d '{
+          "env": {
+            "ENV_VAR_NAME": "'$ENV_VAR_VALUE'"
+          }
+        }'

@@ -72,7 +72,6 @@ async def add(interaction: discord.Interaction, content: str):
 
 
 
-
 # Define the /setting command (Save Google Forms URL)
 @bot.tree.command(name="setting", description="Save the URL of your Google Form")
 async def setting(interaction: discord.Interaction, content: str, entry: str):
