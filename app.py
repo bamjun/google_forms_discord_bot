@@ -118,12 +118,24 @@ async def get_ai_response(content: str):
 # Discord 명령어 처리
 @bot.tree.command(name="ai", description="AI와 대화")
 async def ai(interaction: discord.Interaction, content: str):
-    # 사용자가 입력한 content를 AIML API에 보냄
-    await interaction.response.defer()  # 응답 처리 시간을 주기 위한 defer 사용
-    ai_response = await get_ai_response(content)
+    try:
+        # 사용자가 입력한 content를 AIML API에 보냄
+        await interaction.response.defer()  # 응답 처리 시간을 주기 위한 defer 사용
+        ai_response = await get_ai_response(content)
 
-    # AI의 응답을 Discord 채널에 출력
-    await interaction.followup.send(f"AI의 응답: {ai_response}")
+        # AI의 응답을 Discord 채널에 출력
+        await interaction.followup.send(f"AI의 응답: {ai_response}")
+    
+    except discord.errors.NotFound:
+        # 상호작용이 유효하지 않은 경우 처리
+        print("Unknown interaction. The interaction might have expired.")
+        await interaction.followup.send("AI 응답 중 오류가 발생했습니다. 다시 시도해 주세요.", ephemeral=True)
+    
+    except Exception as e:
+        # 기타 에러 처리
+        print(f"예기치 않은 오류 발생: {e}")
+        await interaction.followup.send(f"AI 응답 중 오류가 발생했습니다: {e}", ephemeral=True)
+
 
 
 @bot.event
