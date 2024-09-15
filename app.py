@@ -116,7 +116,7 @@ async def get_ai_response(content: str):
 
 
 # Discord 명령어 처리
-@bot.tree.command(name="ai", description="AI와 대화")
+@bot.tree.command(name="aa", description="AI와 대화")
 async def ai(interaction: discord.Interaction, content: str):
     try:
         # 사용자가 입력한 content를 AIML API에 보냄
